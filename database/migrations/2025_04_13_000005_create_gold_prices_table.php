@@ -11,6 +11,7 @@ class CreateGoldPricesTable extends Migration
         Schema::create('gold_prices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('gold_type');
+            $table->string('type')->nullable();
             $table->string('unit');
             $table->string('price');
             $table->string('currency_code')->nullable();
