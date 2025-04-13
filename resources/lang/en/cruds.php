@@ -83,10 +83,10 @@ return [
             'deleted_at_helper'    => ' ',
             'currency_code'        => 'Currency Code',
             'currency_code_helper' => ' ',
-            'rate'                 => 'Rate',
-            'rate_helper'          => ' ',
             'up_or_down'           => 'Up Or Down',
             'up_or_down_helper'    => ' ',
+            'rate'                 => 'Rate',
+            'rate_helper'          => ' ',
         ],
     ],
     'goldPrice' => [

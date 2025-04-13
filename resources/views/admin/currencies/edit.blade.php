@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label class="required" for="rate">{{ trans('cruds.currency.fields.rate') }}</label>
-                <input class="form-control {{ $errors->has('rate') ? 'is-invalid' : '' }}" type="number" name="rate" id="rate" value="{{ old('rate', $currency->rate) }}" step="1" required>
+                <input class="form-control {{ $errors->has('rate') ? 'is-invalid' : '' }}" type="text" name="rate" id="rate" value="{{ old('rate', $currency->rate) }}" required>
                 @if($errors->has('rate'))
                     <span class="text-danger">{{ $errors->first('rate') }}</span>
                 @endif
