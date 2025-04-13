@@ -56,6 +56,7 @@ class Currency extends Model
         'VND' => 'Vietnamese Dong',
         'PHP' => 'Philippine Peso',
         'KHR' => 'Cambodian Riel',
+        'THB' => 'Thai Baht',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
