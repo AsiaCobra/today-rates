@@ -21,10 +21,8 @@ class StoreCurrencyRequest extends FormRequest
                 'required',
             ],
             'rate' => [
+                'string',
                 'required',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
             ],
             'buy_rate' => [
                 'required',
