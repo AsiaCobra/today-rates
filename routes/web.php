@@ -46,8 +46,3 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
-
-Route::get('/', [App\Http\Controllers\CurrencyController::class, 'home'])->name('home');
-Route::get('/currency/{currencyCode}/history', [App\Http\Controllers\CurrencyController::class, 'history'])->name('currency.history');
-Route::get('/terms', [App\Http\Controllers\CurrencyController::class, 'terms'])->name('terms');
-Route::get('/privacy', [App\Http\Controllers\CurrencyController::class, 'privacy'])->name('privacy');

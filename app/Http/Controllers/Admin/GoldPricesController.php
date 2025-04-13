@@ -49,6 +49,9 @@ class GoldPricesController extends Controller
             $table->editColumn('gold_type', function ($row) {
                 return $row->gold_type ? GoldPrice::GOLD_TYPE_SELECT[$row->gold_type] : '';
             });
+            $table->editColumn('type', function ($row) {
+                return $row->type ? GoldPrice::TYPE_SELECT[$row->type] : '';
+            });
             $table->editColumn('unit', function ($row) {
                 return $row->unit ? GoldPrice::UNIT_SELECT[$row->unit] : '';
             });
