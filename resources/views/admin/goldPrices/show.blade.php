@@ -33,6 +33,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.goldPrice.fields.type') }}
+                        </th>
+                        <td>
+                            {{ App\Models\GoldPrice::TYPE_SELECT[$goldPrice->type] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.goldPrice.fields.unit') }}
                         </th>
                         <td>

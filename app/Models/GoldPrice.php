@@ -28,6 +28,11 @@ class GoldPrice extends Model
         'MMK' => 'MMK',
     ];
 
+    public const TYPE_SELECT = [
+        'world'   => 'For World',
+        'myanmar' => 'For Myanmar',
+    ];
+
     public const UP_OR_DOWN_SELECT = [
         'same' => 'same',
         'up'   => 'up',
@@ -41,6 +46,7 @@ class GoldPrice extends Model
 
     protected $fillable = [
         'gold_type',
+        'type',
         'unit',
         'price',
         'currency_code',

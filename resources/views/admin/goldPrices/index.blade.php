@@ -32,6 +32,9 @@
                         {{ trans('cruds.goldPrice.fields.gold_type') }}
                     </th>
                     <th>
+                        {{ trans('cruds.goldPrice.fields.type') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.goldPrice.fields.unit') }}
                     </th>
                     <th>
@@ -101,6 +104,7 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'gold_type', name: 'gold_type' },
+{ data: 'type', name: 'type' },
 { data: 'unit', name: 'unit' },
 { data: 'price', name: 'price' },
 { data: 'currency_code', name: 'currency_code' },

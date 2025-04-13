@@ -24,6 +24,19 @@
                 <span class="help-block">{{ trans('cruds.goldPrice.fields.gold_type_helper') }}</span>
             </div>
             <div class="form-group">
+                <label>{{ trans('cruds.goldPrice.fields.type') }}</label>
+                <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type">
+                    <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\GoldPrice::TYPE_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('type', $goldPrice->type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.goldPrice.fields.type_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required">{{ trans('cruds.goldPrice.fields.unit') }}</label>
                 <select class="form-control {{ $errors->has('unit') ? 'is-invalid' : '' }}" name="unit" id="unit" required>
                     <option value disabled {{ old('unit', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
