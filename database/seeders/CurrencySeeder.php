@@ -49,6 +49,22 @@ class CurrencySeeder extends Seeder
         foreach ($currenciesByDate as $date => $currencies) {
             $this->command->table(['Currency Code', 'Rate', 'Buy Rate', 'Sell Rate', 'Created At', 'Up or Down'], $currencies);
             foreach ($currencies as $currency) {
+                $subDate = date('Y-m-d', strtotime($date . ' -1 day'));
+                $this->command->info('Sub date: ' . $subDate);
+                // Check up or down by comparing the last stored rate
+                $last_stored_rate = Currency::where('currency_code', $currency['currency_code'])->whereDate('created_at', $subDate)->orderBy('created_at', 'desc')->first();
+                if ($last_stored_rate) {
+                    $this->command->info('Last stored rate: ' . $last_stored_rate->rate);
+                    $this->command->info('Current rate: ' . $currency['rate']);
+                    if ($currency['rate'] > $last_stored_rate->rate) {
+                        $currency['up_or_down'] = 'up';
+                    } else {
+                        $currency['up_or_down'] = 'down';
+                    }
+                } else {
+                    $currency['up_or_down'] = 'same';
+                }
+                // $this->command->info('Saving currency: ' . $currency['currency_code'] . ' on date: ' . $date);
                 Currency::create($currency);
             }
         }
@@ -212,17 +228,6 @@ class CurrencySeeder extends Seeder
                     'created_at' => $date,
                 );
 
-                // Check up or down by comparing the last stored rate
-                $last_stored_rate = Currency::where('currency_code', $currencyCode)->orderBy('created_at', 'desc')->first();
-                if ($last_stored_rate) {
-                    if ($currencies[$date][$currencyCode]['rate'] > $last_stored_rate->rate) {
-                        $currencies[$date][$currencyCode]['up_or_down'] = 'up';
-                    } else {
-                        $currencies[$date][$currencyCode]['up_or_down'] = 'down';
-                    }
-                } else {
-                    $currencies[$date][$currencyCode]['up_or_down'] = 'same';
-                }
             }
         }
 

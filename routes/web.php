@@ -46,3 +46,9 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+// Frontend Routes
+Route::get('/', [App\Http\Controllers\Frontend\CurrencyController::class, 'index'])->name('frontend.home');
+Route::get('/currency/{currencyCode}/history', [App\Http\Controllers\Frontend\CurrencyController::class, 'history'])->name('frontend.currency.history');
+Route::get('/terms', [App\Http\Controllers\Frontend\CurrencyController::class, 'terms'])->name('frontend.terms');
+Route::get('/privacy', [App\Http\Controllers\Frontend\CurrencyController::class, 'privacy'])->name('frontend.privacy');
+
