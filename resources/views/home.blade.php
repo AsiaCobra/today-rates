@@ -1,68 +1,62 @@
-@extends('layouts.admin')
+@extends('layouts.app')
+
+@section('title', 'Home')
+
 @section('content')
-<div class="content">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    Dashboard
-                </div>
-
-                <div class="card-body">
-                    @if(session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <div class="row">
-                        {{-- Widget - latest entries --}}
-                        <div class="{{ $settings1['column_class'] }}" style="overflow-x: auto;">
-                            <h3>{{ $settings1['chart_title'] }}</h3>
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        @foreach($settings1['fields'] as $key => $value)
-                                            <th>
-                                                {{ trans(sprintf('cruds.%s.fields.%s', $settings1['translation_key'] ?? 'pleaseUpdateWidget', $key)) }}
-                                            </th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($settings1['data'] as $entry)
-                                        <tr>
-                                            @foreach($settings1['fields'] as $key => $value)
-                                                <td>
-                                                    @if($value === '')
-                                                        {{ $entry->{$key} }}
-                                                    @elseif(is_iterable($entry->{$key}))
-                                                        @foreach($entry->{$key} as $subEentry)
-                                                            <span class="label label-info">{{ $subEentry->{$value} }}</span>
-                                                        @endforeach
-                                                    @else
-                                                        {{ data_get($entry, $key . '.' . $value) }}
-                                                    @endif
-                                                </td>
-                                            @endforeach
-                                        </tr>
-                                        @empty
-                                        <tr>
-                                            <td colspan="{{ count($settings1['fields']) }}">{{ __('No entries found') }}</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="bg-white rounded-lg shadow-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Today's Currency Rates</h1>
+        @if($lastUpdate)
+            <p class="text-sm text-gray-500">
+                Last updated: {{ $lastUpdate->format('F j, Y g:i A') }}
+            </p>
+        @endif
     </div>
+    
+    @if($currencies->isEmpty())
+        <div class="text-center py-8">
+            <p class="text-gray-500 text-lg mb-2">No currency rates available for {{ $today->format('F j, Y') }}</p>
+            @if($lastUpdate)
+                <p class="text-sm text-gray-400">Check back later for updates</p>
+            @endif
+        </div>
+    @else
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Currency</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Buy Rate</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Rate</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trend</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach($currencies as $currency)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <a href="{{ route('currency.history', $currency->currency_code) }}" class="text-blue-600 hover:text-blue-900">
+                                {{ $currency::CURRENCY_CODE_SELECT[$currency->currency_code] }}
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">{{ $currency->currency_code }}</td>
+                        <td class="px-6 py-4">{{ number_format($currency->buy_rate, 2) }}</td>
+                        <td class="px-6 py-4">{{ number_format($currency->sell_rate, 2) }}</td>
+                        <td class="px-6 py-4">
+                            @if($currency->up_or_down === 'up')
+                                <span class="text-green-600">↑</span>
+                            @elseif($currency->up_or_down === 'down')
+                                <span class="text-red-600">↓</span>
+                            @else
+                                <span class="text-gray-600">→</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
 </div>
-@endsection
-@section('scripts')
-@parent
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 @endsection
