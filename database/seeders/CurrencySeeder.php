@@ -45,13 +45,13 @@ class CurrencySeeder extends Seeder
     public function run(): void
     {
         // $currencies = $this->getCurrencies();
-        // $currenciesByDate = $this->getCurrenciesByDate();
-        // foreach ($currenciesByDate as $date => $currencies) {
-        //     $this->command->table(['Currency Code', 'Rate', 'Buy Rate', 'Sell Rate', 'Created At', 'Up or Down'], $currencies);
-        //     foreach ($currencies as $currency) {
-        //         Currency::create($currency);
-        //     }
-        // }
+        $currenciesByDate = $this->getCurrenciesByDate();
+        foreach ($currenciesByDate as $date => $currencies) {
+            $this->command->table(['Currency Code', 'Rate', 'Buy Rate', 'Sell Rate', 'Created At', 'Up or Down'], $currencies);
+            foreach ($currencies as $currency) {
+                Currency::create($currency);
+            }
+        }
         // $this->command->table(['Date', 'Currency Code', 'Rate', 'Buy Rate', 'Sell Rate', 'Up or Down'], $currenciesByDate);
         // return;
         // $currencies = [
@@ -113,7 +113,8 @@ class CurrencySeeder extends Seeder
             $rate_price = 1/$rate['value'];
             $currencies[] = [
                 'currency_code' => $currencyCode,
-                'rate' => $rate['value'],
+                // 'rate' => $rate['value'],
+                'rate' => $rate_price,
                 'buy_rate' => $this->estimateBlackMarketRate($rate_price, $this->black_market_rates_percentage[$currencyCode]['buy']),
                 'sell_rate' => $this->estimateBlackMarketRate($rate_price, $this->black_market_rates_percentage[$currencyCode]['sell']),
                 // 'up_or_down' => 'same',
@@ -185,10 +186,10 @@ class CurrencySeeder extends Seeder
     public function getCurrenciesByDate() {
 
         // Start date
-        $startDate = '2025-03-01';
+        $startDate = '2025-04-03';
 
         // End date
-        $endDate = '2025-03-10';
+        $endDate = '2025-04-13';
 
         // Get all dates between start and end date
         $dates = [];

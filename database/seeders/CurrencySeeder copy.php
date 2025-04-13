@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
 use Exception;
 
-class CurrencySeeder extends Seeder
+class _CurrencySeeder extends Seeder
 {
     /**
      * The currencies we want to seed
