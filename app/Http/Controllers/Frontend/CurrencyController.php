@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
+use App\Models\GoldPrice;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CurrencyController extends Controller
@@ -17,7 +19,24 @@ class CurrencyController extends Controller
 
         $lastUpdate = Currency::latest('created_at')->first()?->created_at;
 
-        return view('frontend.currency.index', compact('currencies', 'today', 'lastUpdate'));
+        // Get gold prices
+        $goldPrices = GoldPrice::whereDate('created_at', $today)
+            ->orderBy('type')
+            ->orderBy('gold_type')
+            ->get();
+
+        // If no gold prices for today, get the latest prices
+        if ($goldPrices->isEmpty()) {
+            $goldLastUpdate = GoldPrice::latest('created_at')->first()?->created_at;
+            if ($goldLastUpdate) {
+                $goldPrices = GoldPrice::whereDate('created_at', $goldLastUpdate)
+                    ->orderBy('type')
+                    ->orderBy('gold_type')
+                    ->get();
+            }
+        }
+
+        return view('frontend.currency.index', compact('currencies', 'today', 'lastUpdate', 'goldPrices'));
     }
 
     public function history($currencyCode)
